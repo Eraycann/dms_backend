@@ -17,7 +17,11 @@ public enum MessageType {
     COMPANY_ALREADY_ACTIVE("1009", "Firma zaten aktif!"),
     COMPANY_ALREADY_INACTIVE("1010", "Firma zaten pasif!"),
     COMPANY_IS_ACTIVE("1011", "Aktif firma kalıcı olarak silinemez!"),
-    FILE_NOT_FOUND("1012","dosya bulunamadı");
+    FILE_NOT_FOUND("4004", "Dosya bulunamadı."),
+
+    // Kategori Hataları (5000 serisi)
+    DOCUMENT_CATEGORY_INVALID("5000", "Geçersiz belge kategorisi sağlandı. GELEN veya GIDEN olmalı.");
+
 
     private String code;
 

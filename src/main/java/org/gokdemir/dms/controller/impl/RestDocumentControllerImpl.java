@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gokdemir.dms.controller.IRestDocumentController;
 import org.gokdemir.dms.controller.RestBaseController;
 import org.gokdemir.dms.controller.RootEntity;
+import org.gokdemir.dms.dto.request.DtoDocumentFilter;
 import org.gokdemir.dms.dto.request.DtoDocumentIU;
 import org.gokdemir.dms.dto.response.DtoDocument;
 import org.gokdemir.dms.service.IDocumentService;
@@ -167,6 +168,36 @@ public class RestDocumentControllerImpl extends RestBaseController implements IR
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
+    }
+
+
+
+
+
+    /**
+     * Belirli bir şirketin aktif belgelerini, filtre kriterlerine göre getirir.
+     * Filtre kriterleri: name (partial match), createdAt aralığı, category (GELEN/GIDEN).
+     * Sonuçlar id'ye göre DESC sıralanır.
+     */
+    @PostMapping("/filter/active")
+    public RootEntity<Page<DtoDocument>> filterActiveDocuments(
+            @RequestBody DtoDocumentFilter filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ok(documentService.filterActiveDocuments(filter, page, size));
+    }
+
+    /**
+     * Belirli bir şirketin pasif belgelerini, filtre kriterlerine göre getirir.
+     * Filtre kriterleri: name (partial match), createdAt aralığı, category (GELEN/GIDEN).
+     * Sonuçlar id'ye göre DESC sıralanır.
+     */
+    @PostMapping("/filter/inactive")
+    public RootEntity<Page<DtoDocument>> filterInactiveDocuments(
+            @RequestBody DtoDocumentFilter filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ok(documentService.filterInactiveDocuments(filter, page, size));
     }
 
 }

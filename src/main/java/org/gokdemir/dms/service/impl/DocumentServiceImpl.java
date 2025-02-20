@@ -2,15 +2,20 @@ package org.gokdemir.dms.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.gokdemir.dms.dto.request.DtoDocumentFilter;
 import org.gokdemir.dms.dto.request.DtoDocumentIU;
 import org.gokdemir.dms.dto.response.DtoDocument;
 import org.gokdemir.dms.entity.Company;
 import org.gokdemir.dms.entity.Document;
+import org.gokdemir.dms.enums.DocumentCategory;
 import org.gokdemir.dms.mapper.DocumentMapper;
 import org.gokdemir.dms.repository.CompanyRepository;
 import org.gokdemir.dms.repository.DocumentRepository;
 import org.gokdemir.dms.service.IDocumentService;
 import org.gokdemir.dms.util.DocumentUtils;
+import org.gokdemir.dms.util.EnumUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.gokdemir.dms.exception.BaseException;
@@ -91,7 +96,7 @@ public class DocumentServiceImpl implements IDocumentService {
     @Transactional
     public String archiveDocument(Long documentId) {
         Document document = documentRepository.findById(documentId)
-            .orElseThrow(() -> new RuntimeException("Document not found with id: " + documentId));
+                .orElseThrow(() -> new RuntimeException("Document not found with id: " + documentId));
 
         // Eğer doküman zaten arşivlenmişse hata fırlat
         if (!document.isActive()) {
@@ -101,11 +106,11 @@ public class DocumentServiceImpl implements IDocumentService {
         try {
             Company company = document.getCompany();
             String archivedName = "archived_" + document.getName();
-            
+
             // Dosyayı fiziksel olarak taşı
             Path oldPath = Path.of(company.getFolderPath(), document.getName());
             Path newPath = Path.of(company.getFolderPath(), archivedName);
-            
+
             try {
                 DocumentUtils.moveFile(oldPath, newPath);
             } catch (IOException e) {
@@ -126,7 +131,7 @@ public class DocumentServiceImpl implements IDocumentService {
     @Transactional
     public String restoreDocument(Long documentId) {
         Document document = documentRepository.findById(documentId)
-            .orElseThrow(() -> new RuntimeException("Document not found with id: " + documentId));
+                .orElseThrow(() -> new RuntimeException("Document not found with id: " + documentId));
 
         // Eğer doküman zaten aktifse hata fırlat
         if (document.isActive()) {
@@ -137,11 +142,11 @@ public class DocumentServiceImpl implements IDocumentService {
             Company company = document.getCompany();
             // "archived_" önekini kaldır
             String originalName = document.getName().replaceFirst("^archived_", "");
-            
+
             // Dosyayı fiziksel olarak taşı
             Path oldPath = Path.of(company.getFolderPath(), document.getName());
             Path newPath = Path.of(company.getFolderPath(), originalName);
-            
+
             try {
                 DocumentUtils.moveFile(oldPath, newPath);
             } catch (IOException e) {
@@ -220,6 +225,24 @@ public class DocumentServiceImpl implements IDocumentService {
 
 
 
+    private DocumentCategory getDocumentCategory(String categoryStr) {
+        return EnumUtils.parseDocumentCategory(categoryStr);
+    }
 
+    @Override
+    public Page<DtoDocument> filterActiveDocuments(DtoDocumentFilter filter, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        DocumentCategory category = (filter.getCategory() != null) ? filter.getCategory() : null;
+        return documentRepository.filterDocuments(filter.getCompanyId(), true, filter.getDocumentNo(),
+                filter.getStartDate(), filter.getEndDate(), category, pageable).map(documentMapper::toDto);
+    }
+
+    @Override
+    public Page<DtoDocument> filterInactiveDocuments(DtoDocumentFilter filter, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        DocumentCategory category = (filter.getCategory() != null) ? filter.getCategory() : null;
+        return documentRepository.filterDocuments(filter.getCompanyId(), false, filter.getDocumentNo(),
+                filter.getStartDate(), filter.getEndDate(), category, pageable).map(documentMapper::toDto);
+    }
 
 }

@@ -1,5 +1,6 @@
 package org.gokdemir.dms.service;
 
+import org.gokdemir.dms.dto.request.DtoDocumentFilter;
 import org.gokdemir.dms.dto.request.DtoDocumentIU;
 import org.gokdemir.dms.dto.response.DtoDocument;
 import org.springframework.core.io.Resource;
@@ -23,5 +24,9 @@ public interface IDocumentService {
     Resource getDocumentAsResource(Long documentId);
 
     void deleteDocumentPermanently(Long documentId);
+
+
+    public Page<DtoDocument> filterActiveDocuments(DtoDocumentFilter filter, int page, int size);
+    public Page<DtoDocument> filterInactiveDocuments(DtoDocumentFilter filter, int page, int size);
 
 }

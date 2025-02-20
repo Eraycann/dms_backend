@@ -7,9 +7,6 @@ import org.gokdemir.dms.controller.RootEntity;
 import org.gokdemir.dms.dto.request.DtoCompanyIU;
 import org.gokdemir.dms.dto.response.DtoCompany;
 import org.gokdemir.dms.service.ICompanyService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,14 +33,14 @@ public class RestCompanyControllerImpl extends RestBaseController implements IRe
 
     @GetMapping("/active")
     @Override
-    public RootEntity<Page<DtoCompany>> getActiveCompanies(@PageableDefault(size = 10) Pageable pageable) {
-        return ok(companyService.getActiveCompanies(pageable));
+    public RootEntity<List<DtoCompany>> getActiveCompanies() {
+        return ok(companyService.getActiveCompanies());
     }
 
     @GetMapping("/inactive")
     @Override
-    public RootEntity<Page<DtoCompany>> getInactiveCompanies(@PageableDefault(size = 10) Pageable pageable) {
-        return ok(companyService.getInactiveCompanies(pageable));
+    public RootEntity<List<DtoCompany>> getInactiveCompanies() {
+        return ok(companyService.getInactiveCompanies());
     }
 
     @PutMapping("/deactivate/{id}")
@@ -59,13 +56,13 @@ public class RestCompanyControllerImpl extends RestBaseController implements IRe
     }
 
     @GetMapping("/active/search")
-    public RootEntity<Page<DtoCompany>> searchActiveCompaniesByName(@RequestParam String name, @PageableDefault(size = 10) Pageable pageable) {
-        return ok(companyService.searchActiveCompaniesByName(name, pageable));
+    public RootEntity<List<DtoCompany>> searchActiveCompaniesByName(@RequestParam String name) {
+        return ok(companyService.searchActiveCompaniesByName(name));
     }
 
     @GetMapping("/inactive/search")
-    public RootEntity<Page<DtoCompany>> searchInactiveCompaniesByName(@RequestParam String name, @PageableDefault(size = 10) Pageable pageable) {
-        return ok(companyService.searchInactiveCompaniesByName(name, pageable));
+    public RootEntity<List<DtoCompany>> searchInactiveCompaniesByName(@RequestParam String name) {
+        return ok(companyService.searchInactiveCompaniesByName(name));
     }
 
     @GetMapping("/{id}")

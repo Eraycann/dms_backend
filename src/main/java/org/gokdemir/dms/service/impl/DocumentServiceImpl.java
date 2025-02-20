@@ -26,9 +26,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements IDocumentService {
@@ -161,15 +158,15 @@ public class DocumentServiceImpl implements IDocumentService {
     }
 
     @Transactional
-    public Page<DtoDocument> getActiveDocumentsByCompany(Long companyId, Pageable pageable) {
-        Page<Document> documents = documentRepository.findByCompanyIdAndIsActiveTrueOrderByCreatedAtDesc(companyId, pageable);
-        return documents.map(documentMapper::toDto);
+    public List<DtoDocument> getActiveDocumentsByCompany(Long companyId) {
+        List<Document> documents = documentRepository.findByCompanyIdAndIsActiveTrueOrderByCreatedAtDesc(companyId);
+        return documentMapper.toDtoList(documents);
     }
 
     @Transactional
-    public Page<DtoDocument> getArchivedDocumentsByCompany(Long companyId, Pageable pageable) {
-        Page<Document> documents = documentRepository.findByCompanyIdAndIsActiveFalseOrderByCreatedAtDesc(companyId, pageable);
-        return documents.map(documentMapper::toDto);
+    public List<DtoDocument> getArchivedDocumentsByCompany(Long companyId) {
+        List<Document> documents = documentRepository.findByCompanyIdAndIsActiveFalseOrderByCreatedAtDesc(companyId);
+        return documentMapper.toDtoList(documents);
     }
 
 

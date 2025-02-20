@@ -2,8 +2,6 @@ package org.gokdemir.dms.controller;
 
 import org.gokdemir.dms.dto.request.DtoCompanyIU;
 import org.gokdemir.dms.dto.response.DtoCompany;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -13,18 +11,20 @@ public interface IRestCompanyController {
 
     public RootEntity<DtoCompany> updateCompany(Long id, DtoCompanyIU dtoCompanyIU);
 
-    public RootEntity<Page<DtoCompany>> getActiveCompanies(Pageable pageable);
+    public RootEntity<List<DtoCompany>> getActiveCompanies();
 
-    public RootEntity<Page<DtoCompany>> getInactiveCompanies(Pageable pageable);
+    public RootEntity<List<DtoCompany>> getInactiveCompanies();
 
     public RootEntity<String> deactivateCompany(Long id);
 
     public RootEntity<String> activateCompany(Long id);
 
-    public RootEntity<Page<DtoCompany>> searchActiveCompaniesByName(String name, Pageable pageable);
+    public RootEntity<List<DtoCompany>> searchActiveCompaniesByName(String name);
 
-    public RootEntity<Page<DtoCompany>> searchInactiveCompaniesByName(String name, Pageable pageable);
+    public RootEntity<List<DtoCompany>> searchInactiveCompaniesByName(String name);
 
     public RootEntity<DtoCompany> getCompanyById(Long id);
+
+
 
 }

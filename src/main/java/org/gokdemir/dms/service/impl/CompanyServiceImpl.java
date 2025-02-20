@@ -15,8 +15,6 @@ import org.gokdemir.dms.dto.response.DtoCompany;
 import org.gokdemir.dms.entity.Company;
 import org.gokdemir.dms.repository.CompanyRepository;
 import org.gokdemir.dms.service.ICompanyService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.nio.file.*;
 import java.util.List;
@@ -87,15 +85,15 @@ public class CompanyServiceImpl implements ICompanyService {
 
 
     @Transactional
-    public Page<DtoCompany> getActiveCompanies(Pageable pageable) {
-        Page<Company> companies = companyRepository.findAllActiveCompanies(pageable);
-        return companies.map(companyMapper::toDto);
+    public List<DtoCompany> getActiveCompanies() {
+        List<Company> companies = companyRepository.findAllActiveCompanies();
+        return companyMapper.toDtoList(companies);
     }
 
     @Transactional
-    public Page<DtoCompany> getInactiveCompanies(Pageable pageable) {
-        Page<Company> companies = companyRepository.findAllInactiveCompanies(pageable);
-        return companies.map(companyMapper::toDto);
+    public List<DtoCompany> getInactiveCompanies() {
+        List<Company> companies = companyRepository.findAllInactiveCompanies();
+        return companyMapper.toDtoList(companies);
     }
 
     @Transactional
@@ -138,15 +136,15 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Transactional
-    public Page<DtoCompany> searchActiveCompaniesByName(String name, Pageable pageable) {
-        Page<Company> companies = companyRepository.findActiveCompaniesByName(name, pageable);
-        return companies.map(companyMapper::toDto);
+    public List<DtoCompany> searchActiveCompaniesByName(String name) {
+        List<Company> companies = companyRepository.findActiveCompaniesByName(name);
+        return companyMapper.toDtoList(companies);
     }
 
     @Transactional
-    public Page<DtoCompany> searchInactiveCompaniesByName(String name, Pageable pageable) {
-        Page<Company> companies = companyRepository.findInactiveCompaniesByName(name, pageable);
-        return companies.map(companyMapper::toDto);
+    public List<DtoCompany> searchInactiveCompaniesByName(String name) {
+        List<Company> companies = companyRepository.findInactiveCompaniesByName(name);
+        return companyMapper.toDtoList(companies);
     }
 
     @Transactional

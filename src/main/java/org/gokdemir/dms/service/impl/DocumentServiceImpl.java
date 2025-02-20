@@ -24,7 +24,6 @@ import java.nio.file.Paths;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -194,7 +193,6 @@ public class DocumentServiceImpl implements IDocumentService {
         }
     }
 
-
     @Override
     public Resource getDocumentAsResource(Long documentId) {
         Document document = documentRepository.findById(documentId)
@@ -217,6 +215,10 @@ public class DocumentServiceImpl implements IDocumentService {
             throw new BaseException(new ErrorMessage(MessageType.FILE_NOT_FOUND, "Could not read file: " + document.getName()));
         }
     }
+
+
+
+
 
 
 

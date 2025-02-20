@@ -8,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public interface IDocumentService {
 
@@ -25,4 +23,5 @@ public interface IDocumentService {
     Resource getDocumentAsResource(Long documentId);
 
     void deleteDocumentPermanently(Long documentId);
+
 }

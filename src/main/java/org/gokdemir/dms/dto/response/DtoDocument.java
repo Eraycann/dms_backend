@@ -18,6 +18,8 @@ public class DtoDocument {
 
     private DocumentCategory category;
 
+    private String documentNo;
+
     private String description;
 
     private LocalDateTime createdAt;

@@ -13,6 +13,8 @@ public class DtoDocumentIU {
 
     private DocumentFormat type;
 
+    private String documentNo;
+
     private DocumentCategory category;
 
     private String description;

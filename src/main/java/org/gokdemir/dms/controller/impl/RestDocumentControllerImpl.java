@@ -13,7 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,14 +54,14 @@ public class RestDocumentControllerImpl extends RestBaseController implements IR
 
     @GetMapping("/active/{companyId}")
     @Override
-    public RootEntity<List<DtoDocument>> getActiveDocumentsByCompany(@PathVariable Long companyId) {
-        return ok(documentService.getActiveDocumentsByCompany(companyId));
+    public RootEntity<Page<DtoDocument>> getActiveDocumentsByCompany(@PathVariable Long companyId, @PageableDefault(size = 10) Pageable pageable) {
+        return ok(documentService.getActiveDocumentsByCompany(companyId, pageable));
     }
 
     @GetMapping("/archived/{companyId}")
     @Override
-    public RootEntity<List<DtoDocument>> getArchivedDocumentsByCompany(@PathVariable Long companyId) {
-        return ok(documentService.getArchivedDocumentsByCompany(companyId));
+    public RootEntity<Page<DtoDocument>> getArchivedDocumentsByCompany(@PathVariable Long companyId, @PageableDefault(size = 10) Pageable pageable) {
+        return ok(documentService.getArchivedDocumentsByCompany(companyId, pageable));
     }
 
     @DeleteMapping("/delete/{documentId}")
@@ -71,11 +73,11 @@ public class RestDocumentControllerImpl extends RestBaseController implements IR
     @GetMapping("/{documentId}")
     public ResponseEntity<Resource> getDocument(@PathVariable Long documentId) {
         Resource resource = documentService.getDocumentAsResource(documentId);
-        
+
         // Dosya uzantısını al
         String contentType;
         String filename = resource.getFilename();
-        
+
         if (filename != null) {
             String lowerFilename = filename.toLowerCase();
             // PDF
@@ -167,7 +169,5 @@ public class RestDocumentControllerImpl extends RestBaseController implements IR
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
     }
-
-
 
 }

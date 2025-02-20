@@ -4,6 +4,8 @@ import org.gokdemir.dms.dto.request.DtoDocumentIU;
 import org.gokdemir.dms.dto.response.DtoDocument;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -17,10 +19,9 @@ public interface IDocumentService {
 
     public String restoreDocument(Long documentId);
 
-    public List<DtoDocument> getActiveDocumentsByCompany(Long companyId);
+    Page<DtoDocument> getActiveDocumentsByCompany(Long companyId, Pageable pageable);
 
-    public List<DtoDocument> getArchivedDocumentsByCompany(Long companyId);
-
+    Page<DtoDocument> getArchivedDocumentsByCompany(Long companyId, Pageable pageable);
 
     Resource getDocumentAsResource(Long documentId);
 

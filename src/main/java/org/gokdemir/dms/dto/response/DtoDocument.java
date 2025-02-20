@@ -14,8 +14,6 @@ public class DtoDocument {
 
     private String name;
 
-    private String documentNo;
-
     private DocumentFormat type;
 
     private DocumentCategory category;

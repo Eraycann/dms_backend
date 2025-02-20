@@ -71,11 +71,11 @@ public class RestDocumentControllerImpl extends RestBaseController implements IR
     @GetMapping("/{documentId}")
     public ResponseEntity<Resource> getDocument(@PathVariable Long documentId) {
         Resource resource = documentService.getDocumentAsResource(documentId);
-
+        
         // Dosya uzantısını al
         String contentType;
         String filename = resource.getFilename();
-
+        
         if (filename != null) {
             String lowerFilename = filename.toLowerCase();
             // PDF

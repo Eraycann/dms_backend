@@ -232,17 +232,19 @@ public class DocumentServiceImpl implements IDocumentService {
     @Override
     public Page<DtoDocument> filterActiveDocuments(DtoDocumentFilter filter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        DocumentCategory category = (filter.getCategory() != null) ? filter.getCategory() : null;
+        DocumentCategory category = filter.getCategory();
         return documentRepository.filterDocuments(filter.getCompanyId(), true, filter.getDocumentNo(),
-                filter.getStartDate(), filter.getEndDate(), category, pageable).map(documentMapper::toDto);
+                        filter.getStartDate(), filter.getEndDate(), category, filter.getDescription(), pageable)
+                .map(documentMapper::toDto);
     }
 
     @Override
     public Page<DtoDocument> filterInactiveDocuments(DtoDocumentFilter filter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        DocumentCategory category = (filter.getCategory() != null) ? filter.getCategory() : null;
+        DocumentCategory category = filter.getCategory();
         return documentRepository.filterDocuments(filter.getCompanyId(), false, filter.getDocumentNo(),
-                filter.getStartDate(), filter.getEndDate(), category, pageable).map(documentMapper::toDto);
+                        filter.getStartDate(), filter.getEndDate(), category, filter.getDescription(), pageable)
+                .map(documentMapper::toDto);
     }
 
 }

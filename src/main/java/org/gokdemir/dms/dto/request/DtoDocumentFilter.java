@@ -13,6 +13,8 @@ public class DtoDocumentFilter {
 
     private String documentNo;
 
+    private String description;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startDate;
 

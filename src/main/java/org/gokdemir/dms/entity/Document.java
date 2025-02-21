@@ -19,6 +19,9 @@ public class Document extends BaseEntity{
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
+    @Column(name = "document_no", nullable = false)
+    private String documentNo;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type", length = 20)
     private DocumentFormat type;

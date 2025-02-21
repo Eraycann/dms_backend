@@ -170,4 +170,19 @@ public class RestDocumentControllerImpl extends RestBaseController implements IR
                 .body(resource);
     }
 
+    @GetMapping("/active/search")
+    public RootEntity<Page<DtoDocument>> searchActiveDocuments(
+            @RequestParam Long companyId,
+            @RequestParam String documentNo,
+            @PageableDefault(size = 10) Pageable pageable) {
+        return ok(documentService.searchActiveDocumentsByCompanyAndDocumentNo(companyId, documentNo, pageable));
+    }
+
+    @GetMapping("/archived/search")
+    public RootEntity<Page<DtoDocument>> searchArchivedDocuments(
+            @RequestParam Long companyId,
+            @RequestParam String documentNo,
+            @PageableDefault(size = 10) Pageable pageable) {
+        return ok(documentService.searchArchivedDocumentsByCompanyAndDocumentNo(companyId, documentNo, pageable));
+    }
 }

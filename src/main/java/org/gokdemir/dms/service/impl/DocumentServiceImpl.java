@@ -64,7 +64,6 @@ public class DocumentServiceImpl implements IDocumentService {
     }
 
 
-
     @Transactional
     public DtoDocument uploadDocument(MultipartFile file, DtoDocumentIU dtoDocumentIU) throws IOException {
         Company company = getCompany(dtoDocumentIU.getCompanyId());
@@ -174,6 +173,19 @@ public class DocumentServiceImpl implements IDocumentService {
         return documents.map(documentMapper::toDto);
     }
 
+    @Override
+    @Transactional
+    public Page<DtoDocument> searchActiveDocumentsByCompanyAndDocumentNo(Long companyId, String documentNo, Pageable pageable) {
+        Page<Document> documents = documentRepository.searchActiveDocumentsByCompanyAndDocumentNo(companyId, documentNo, pageable);
+        return documents.map(documentMapper::toDto);
+    }
+
+    @Override
+    @Transactional
+    public Page<DtoDocument> searchArchivedDocumentsByCompanyAndDocumentNo(Long companyId, String documentNo, Pageable pageable) {
+        Page<Document> documents = documentRepository.searchArchivedDocumentsByCompanyAndDocumentNo(companyId, documentNo, pageable);
+        return documents.map(documentMapper::toDto);
+    }
 
     @Transactional
     public void deleteDocumentPermanently(Long documentId) {

@@ -23,6 +23,9 @@ public class Document extends BaseEntity{
     @Column(name = "type", length = 20)
     private DocumentFormat type;
 
+    @Column(name = "document_no", length = 50)
+    private String documentNo;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "category", length = 5)
     private DocumentCategory category;

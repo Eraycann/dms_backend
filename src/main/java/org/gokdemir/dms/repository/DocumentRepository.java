@@ -20,4 +20,16 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     Page<Document> findByCompanyIdAndIsActiveTrueOrderByCreatedAtDesc(Long companyId, Pageable pageable);
     Page<Document> findByCompanyIdAndIsActiveFalseOrderByCreatedAtDesc(Long companyId, Pageable pageable);
+
+    @Query("SELECT d FROM Document d WHERE d.company.id = :companyId AND LOWER(d.documentNo) LIKE LOWER(CONCAT('%', :documentNo, '%')) AND d.isActive = true")
+    Page<Document> searchActiveDocumentsByCompanyAndDocumentNo(
+            @Param("companyId") Long companyId,
+            @Param("documentNo") String documentNo,
+            Pageable pageable);
+
+    @Query("SELECT d FROM Document d WHERE d.company.id = :companyId AND LOWER(d.documentNo) LIKE LOWER(CONCAT('%', :documentNo, '%')) AND d.isActive = false")
+    Page<Document> searchArchivedDocumentsByCompanyAndDocumentNo(
+            @Param("companyId") Long companyId,
+            @Param("documentNo") String documentNo,
+            Pageable pageable);
 }

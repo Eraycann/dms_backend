@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,5 +25,15 @@ public interface IRestDocumentController {
     public RootEntity<Page<DtoDocument>> getActiveDocumentsByCompany(Long companyId, @PageableDefault(size = 10) Pageable pageable);
 
     public RootEntity<Page<DtoDocument>> getArchivedDocumentsByCompany(Long companyId, @PageableDefault(size = 10) Pageable pageable);
+
+    public RootEntity<Page<DtoDocument>> searchActiveDocuments(
+            @RequestParam Long companyId,
+            @RequestParam String documentNo,
+            @PageableDefault(size = 10) Pageable pageable);
+
+    public RootEntity<Page<DtoDocument>> searchArchivedDocuments(
+            @RequestParam Long companyId,
+            @RequestParam String documentNo,
+            @PageableDefault(size = 10) Pageable pageable);
 
 }

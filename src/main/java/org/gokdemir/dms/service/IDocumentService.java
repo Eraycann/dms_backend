@@ -20,9 +20,15 @@ public interface IDocumentService {
     public String restoreDocument(Long documentId);
 
     Page<DtoDocument> getActiveDocumentsByCompany(Long companyId, Pageable pageable);
+
     Page<DtoDocument> getArchivedDocumentsByCompany(Long companyId, Pageable pageable);
 
     Resource getDocumentAsResource(Long documentId);
 
     void deleteDocumentPermanently(Long documentId);
+
+    Page<DtoDocument> searchActiveDocumentsByCompanyAndDocumentNo(Long companyId, String documentNo, Pageable pageable);
+
+    Page<DtoDocument> searchArchivedDocumentsByCompanyAndDocumentNo(Long companyId, String documentNo, Pageable pageable);
+
 }

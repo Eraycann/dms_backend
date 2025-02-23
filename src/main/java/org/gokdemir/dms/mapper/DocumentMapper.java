@@ -15,6 +15,10 @@ public interface DocumentMapper {
     DtoDocument toDto(Document document);
     
     List<DtoDocument> toDtoList(List<Document> documentList);
-    
-    Document toEntity(DtoDocumentIU dtoDocumentIU);
-}
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "active", ignore = true)
+    @Mapping(target = "company", ignore = true)
+    Document toEntity(DtoDocumentIU dtoDocumentIU);}

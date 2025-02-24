@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.gokdemir.dms.enums.DocumentCategory;
 import org.gokdemir.dms.enums.DocumentFormat;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -37,5 +39,9 @@ public class Document extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
+
+    // Evrak tarihi ve saat sütunu
+    @Column(name = "document_date_time")
+    private LocalDateTime documentDateTime;
 
 }

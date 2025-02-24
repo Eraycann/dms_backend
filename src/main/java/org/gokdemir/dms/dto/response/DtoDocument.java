@@ -22,7 +22,10 @@ public class DtoDocument {
 
     private String description;
 
-    private LocalDateTime createdAt;
+    // private LocalDateTime createdAt;
 
     private DtoCompany company;
+
+    private LocalDateTime documentDateTime;
+
 }

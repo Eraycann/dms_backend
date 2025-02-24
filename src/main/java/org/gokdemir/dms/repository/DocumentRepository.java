@@ -27,8 +27,8 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     @Query("SELECT d FROM Document d WHERE d.company.id = :companyId AND d.isActive = :active " +
             "AND LOWER(d.documentNo) LIKE LOWER(CONCAT('%', COALESCE(:documentNo, ''), '%')) " +
-            "AND d.createdAt >= COALESCE(:startDate, d.createdAt) " +
-            "AND d.createdAt <= COALESCE(:endDate, d.createdAt) " +
+            "AND d.documentDateTime >= COALESCE(:startDate, d.documentDateTime) " + // documentDateTime'e göre filtreleme
+            "AND d.documentDateTime <= COALESCE(:endDate, d.documentDateTime) " + // documentDateTime'e göre filtreleme
             "AND d.category = COALESCE(:category, d.category) " +
             "AND LOWER(d.description) LIKE LOWER(CONCAT('%', COALESCE(:description, ''), '%'))")
     Page<Document> filterDocuments(@Param("companyId") Long companyId,
@@ -39,5 +39,4 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
                                    @Param("category") DocumentCategory category,
                                    @Param("description") String description,
                                    Pageable pageable);
-
 }

@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {CompanyMapper.class})
 public interface DocumentMapper {
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "createdAt", source = "createdAt")
     DtoDocument toDto(Document document);
     
     List<DtoDocument> toDtoList(List<Document> documentList);

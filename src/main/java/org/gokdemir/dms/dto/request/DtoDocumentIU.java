@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.gokdemir.dms.enums.DocumentCategory;
 import org.gokdemir.dms.enums.DocumentFormat;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class DtoDocumentIU {
@@ -20,4 +22,7 @@ public class DtoDocumentIU {
     private String description;
 
     private Long companyId;
+
+    private LocalDateTime documentDateTime;
+
 }

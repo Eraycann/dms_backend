@@ -6,6 +6,7 @@ import org.gokdemir.dms.controller.RestBaseController;
 import org.gokdemir.dms.controller.RootEntity;
 import org.gokdemir.dms.dto.request.DtoDocumentFilter;
 import org.gokdemir.dms.dto.request.DtoDocumentIU;
+import org.gokdemir.dms.dto.request.DtoDocumentUpdateIU;
 import org.gokdemir.dms.dto.response.DtoDocument;
 import org.gokdemir.dms.service.IDocumentService;
 import org.springframework.http.MediaType;
@@ -33,6 +34,13 @@ public class RestDocumentControllerImpl extends RestBaseController implements IR
             @RequestPart("file") MultipartFile file,
             @RequestPart("dto") DtoDocumentIU dtoDocumentIU) throws IOException {
         return ok(documentService.uploadDocument(file, dtoDocumentIU));
+    }
+
+    @PostMapping("/update/{documentId}")
+    @Override
+    public ResponseEntity<Void> updateDocument(@PathVariable Long documentId,@RequestBody DtoDocumentUpdateIU dto){
+        documentService.updateDocument(documentId, dto);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/archive/{documentId}")

@@ -1,10 +1,10 @@
 package org.gokdemir.dms.mapper;
 
 import org.gokdemir.dms.dto.request.DtoDocumentIU;
+import org.gokdemir.dms.dto.request.DtoDocumentUpdateIU;
 import org.gokdemir.dms.dto.response.DtoDocument;
 import org.gokdemir.dms.entity.Document;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -20,4 +20,20 @@ public interface DocumentMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "active", ignore = true)
     @Mapping(target = "company", ignore = true)
-    Document toEntity(DtoDocumentIU dtoDocumentIU);}
+    Document toEntity(DtoDocumentIU dtoDocumentIU);
+
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "active", ignore = true)
+    @Mapping(target = "name", ignore = true)
+    @Mapping(target = "company", ignore = true)
+    void updateDocumentFromDto(DtoDocumentUpdateIU dtoDocumentUpdateIU, @MappingTarget Document document);
+}
+
+
+
+
+

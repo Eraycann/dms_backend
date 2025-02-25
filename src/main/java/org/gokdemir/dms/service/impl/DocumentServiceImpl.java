@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.gokdemir.dms.dto.request.DtoDocumentFilter;
 import org.gokdemir.dms.dto.request.DtoDocumentIU;
+import org.gokdemir.dms.dto.request.DtoDocumentUpdateIU;
 import org.gokdemir.dms.dto.response.DtoDocument;
 import org.gokdemir.dms.entity.Company;
 import org.gokdemir.dms.entity.Document;
@@ -29,6 +30,7 @@ import java.nio.file.Paths;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -68,6 +70,13 @@ public class DocumentServiceImpl implements IDocumentService {
     }
 
 
+    @Transactional
+    public void updateDocument(Long id, DtoDocumentUpdateIU dto){
+        Document document = documentRepository.findById(id).orElseThrow(() -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, id.toString())));
+
+        documentMapper.updateDocumentFromDto(dto, document);
+        documentRepository.save(document);
+    }
 
     @Transactional
     public DtoDocument uploadDocument(MultipartFile file, DtoDocumentIU dtoDocumentIU) throws IOException {
@@ -177,7 +186,6 @@ public class DocumentServiceImpl implements IDocumentService {
         Page<Document> documents = documentRepository.findByCompanyIdAndIsActiveFalseOrderByCreatedAtDesc(companyId, pageable);
         return documents.map(documentMapper::toDto);
     }
-
 
     @Transactional
     public void deleteDocumentPermanently(Long documentId) {

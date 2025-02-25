@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.gokdemir.dms.enums.DocumentCategory;
 import org.gokdemir.dms.enums.DocumentFormat;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -41,6 +42,7 @@ public class Document extends BaseEntity{
     private Company company;
 
     // Evrak tarihi ve saat sütunu
+    @ColumnDefault("CURRENT_TIMESTAMP") // Varsayılan değer olarak geçerli tarih ve saat
     @Column(name = "document_date_time")
     private LocalDateTime documentDateTime;
 
